@@ -1,0 +1,58 @@
+name: "Stale Issues"
+
+on:
+  workflow_call:
+    inputs:
+      days-before-stale:
+        description: "Days before marking as stale"
+        required: false
+        type: number
+        default: 60
+      days-before-close:
+        description: "Days before closing stale items"
+        required: false
+        type: number
+        default: 14
+      exempt-issue-labels:
+        description: "Comma-separated labels exempt from stale"
+        required: false
+        type: string
+        default: "pinned,security,bug"
+      exempt-pr-labels:
+        description: "Comma-separated PR labels exempt from stale"
+        required: false
+        type: string
+        default: "pinned,security"
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    name: "Close Stale Issues & PRs"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stale issues and PRs
+        uses: actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
+        with:
+          stale-issue-message: >
+            This issue has been automatically marked as stale because it has not had
+            recent activity. It will be closed in ${{ inputs.days-before-close }} days if no further activity occurs.
+            If this issue is still relevant, please leave a comment or remove the stale label.
+          stale-pr-message: >
+            This pull request has been automatically marked as stale because it has not had
+            recent activity. It will be closed in ${{ inputs.days-before-close }} days if no further activity occurs.
+            If this PR is still relevant, please leave a comment or remove the stale label.
+          close-issue-message: >
+            This issue was closed because it has been stale for ${{ inputs.days-before-close }} days with no activity.
+            Feel free to reopen if this is still relevant.
+          close-pr-message: >
+            This pull request was closed because it has been stale for ${{ inputs.days-before-close }} days with no activity.
+            Feel free to reopen if this is still relevant.
+          days-before-stale: ${{ inputs.days-before-stale }}
+          days-before-close: ${{ inputs.days-before-close }}
+          stale-issue-label: "stale"
+          stale-pr-label: "stale"
+          exempt-issue-labels: ${{ inputs.exempt-issue-labels }}
+          exempt-pr-labels: ${{ inputs.exempt-pr-labels }}
