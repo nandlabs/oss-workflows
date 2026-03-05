@@ -4,32 +4,31 @@ Reusable GitHub Actions workflows for open-source projects in the [nandlabs](htt
 
 ## Structure
 
-Workflows are organized by language/ecosystem:
+Workflows are organized by language prefix under `.github/workflows/`:
 
 ```
 oss-workflows/
-├── go/              # Go project workflows
-│   └── .github/
-│       └── workflows/
-│           ├── ci.yml
-│           ├── lint.yml
-│           ├── codeql.yml
-│           ├── dependency-review.yml
-│           ├── release.yml
-│           └── stale.yml
+├── .github/
+│   └── workflows/
+│       ├── go-ci.yml
+│       ├── go-lint.yml
+│       ├── go-codeql.yml
+│       ├── go-dependency-review.yml
+│       ├── go-release.yml
+│       └── go-stale.yml
 └── README.md
 ```
 
 ## Go Workflows
 
-| Workflow              | File                                         | Description                                                   |
-| --------------------- | -------------------------------------------- | ------------------------------------------------------------- |
-| **CI**                | `go/.github/workflows/ci.yml`                | Build & test across multiple Go versions with coverage upload |
-| **Lint**              | `go/.github/workflows/lint.yml`              | golangci-lint, go vet, and staticcheck                        |
-| **CodeQL**            | `go/.github/workflows/codeql.yml`            | CodeQL security analysis for Go                               |
-| **Dependency Review** | `go/.github/workflows/dependency-review.yml` | Dependency vulnerability and license scanning                 |
-| **Release**           | `go/.github/workflows/release.yml`           | Automated GitHub release with changelog on tag push           |
-| **Stale**             | `go/.github/workflows/stale.yml`             | Auto-close stale issues and PRs                               |
+| Workflow              | File                       | Description                                                   |
+| --------------------- | -------------------------- | ------------------------------------------------------------- |
+| **CI**                | `go-ci.yml`                | Build & test across multiple Go versions with coverage upload |
+| **Lint**              | `go-lint.yml`              | golangci-lint, go vet, and staticcheck                        |
+| **CodeQL**            | `go-codeql.yml`            | CodeQL security analysis for Go                               |
+| **Dependency Review** | `go-dependency-review.yml` | Dependency vulnerability and license scanning                 |
+| **Release**           | `go-release.yml`           | Automated GitHub release with changelog on tag push           |
+| **Stale**             | `go-stale.yml`             | Auto-close stale issues and PRs                               |
 
 ## Usage
 
@@ -48,7 +47,7 @@ on:
 
 jobs:
   ci:
-    uses: nandlabs/oss-workflows/go/.github/workflows/ci.yml@main
+    uses: nandlabs/oss-workflows/.github/workflows/go-ci.yml@main
     with:
       go-versions: '["1.25", "1.26"]'
       coverage-go-version: "1.25"
@@ -73,7 +72,7 @@ on:
 
 jobs:
   lint:
-    uses: nandlabs/oss-workflows/go/.github/workflows/lint.yml@main
+    uses: nandlabs/oss-workflows/.github/workflows/go-lint.yml@main
     with:
       go-version: "1.25"
 ```
@@ -98,7 +97,7 @@ on:
 
 jobs:
   codeql:
-    uses: nandlabs/oss-workflows/go/.github/workflows/codeql.yml@main
+    uses: nandlabs/oss-workflows/.github/workflows/go-codeql.yml@main
     permissions:
       actions: read
       contents: read
@@ -123,7 +122,7 @@ on:
 
 jobs:
   dependency-review:
-    uses: nandlabs/oss-workflows/go/.github/workflows/dependency-review.yml@main
+    uses: nandlabs/oss-workflows/.github/workflows/go-dependency-review.yml@main
     permissions:
       contents: read
       pull-requests: write
@@ -149,7 +148,7 @@ on:
 
 jobs:
   release:
-    uses: nandlabs/oss-workflows/go/.github/workflows/release.yml@main
+    uses: nandlabs/oss-workflows/.github/workflows/go-release.yml@main
     permissions:
       contents: write
     with:
@@ -180,7 +179,7 @@ on:
 
 jobs:
   stale:
-    uses: nandlabs/oss-workflows/go/.github/workflows/stale.yml@main
+    uses: nandlabs/oss-workflows/.github/workflows/go-stale.yml@main
     permissions:
       issues: write
       pull-requests: write
@@ -198,15 +197,14 @@ jobs:
 
 To add workflows for a new language or ecosystem (e.g., Python, Node.js), create a new directory:
 
-```
-oss-workflows/
-├── go/              # Go workflows
-├── python/          # Python workflows (future)
-├── node/            # Node.js workflows (future)
-└── README.md
-```
+To add workflows for a new language or ecosystem (e.g., Python, Node.js), use a language prefix:
 
-Each ecosystem directory follows the same `.github/workflows/` convention.
+```
+.github/workflows/
+├── go-*.yml       # Go workflows
+├── python-*.yml   # Python workflows (future)
+└── node-*.yml     # Node.js workflows (future)
+```
 
 ## Consumers
 
