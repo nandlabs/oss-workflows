@@ -12,7 +12,7 @@ on:
         description: "Comma-separated list of allowed licenses"
         required: false
         type: string
-        default: "MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC"
+        default: "MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, LicenseRef-scancode-google-patent-license-golang"
 
 permissions:
   contents: read
